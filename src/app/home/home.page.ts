@@ -1,6 +1,5 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { Camera, CameraResultType } from '@capacitor/camera';
 
 import {
   IntuneMAM, IntuneMAMAppConfig, IntuneMAMGroupName,
@@ -107,14 +106,5 @@ export class HomePage implements OnInit {
 
   getAppConfigJson() {
     return JSON.stringify((this.appConfig || {}), null, 2);
-  }
-
-  async camera() {
-    const image = await Camera.getPhoto({
-      quality: 90,
-      allowEditing: true,
-      resultType: CameraResultType.Uri
-    });
-    this.cameraImg = image.webPath;
   }
 }
