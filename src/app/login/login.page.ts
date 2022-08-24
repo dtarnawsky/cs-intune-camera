@@ -9,6 +9,7 @@ import { IntuneMAM } from '@ionic-enterprise/intune';
 })
 export class LoginPage {
   version = null;
+  upn: string;
 
   constructor(private router: Router) { }
 
@@ -31,10 +32,12 @@ export class LoginPage {
     });
 
     console.log('Got auth info', authInfo);
+    this.upn = authInfo.upn;
 
     await IntuneMAM.registerAndEnrollAccount({
       upn: authInfo.upn,
     });
+    console.log('registerAndEnrollAccount completed');
 
     const user = await IntuneMAM.enrolledAccount();
     console.log('user', user);
@@ -45,6 +48,12 @@ export class LoginPage {
       console.log('No user, logging in');
       this.router.navigate(['/login']);
     }
+  }
+
+  async logout() {
+    console.log('upn', this.upn);
+    await IntuneMAM.logoutOfAccount({ upn: this.upn});
+    console.log('logged out');
   }
 
   async showConsole() {
